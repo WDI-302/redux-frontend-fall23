@@ -1,7 +1,8 @@
 import React from 'react'
 import { Container, Box, Typography } from '@mui/material'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginTest } from '../redux/userSlice'
 
 
 const Home = () => {
@@ -10,7 +11,12 @@ const Home = () => {
   // Hello World -> Hello Firstname - Hello Paul
 
   const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
 
+  React.useEffect(() => {
+    dispatch(loginTest())
+  }, [])
+  
   return (
     <Container maxWidth='lg'>
         <Box >
