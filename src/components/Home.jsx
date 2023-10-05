@@ -1,15 +1,20 @@
 import React from 'react'
 import { Container, Box, Typography } from '@mui/material'
 
-// make a Redux store and userSlice
-// shouild be able to display user's name below
-// Hello World -> Hello Firstname - Hello Paul
+import { useSelector } from 'react-redux'
+
 
 const Home = () => {
+  // make a Redux store and userSlice
+  // shouild be able to display user's name below
+  // Hello World -> Hello Firstname - Hello Paul
+
+  const user = useSelector(state => state.user)
+
   return (
     <Container maxWidth='lg'>
         <Box >
-            <Typography variant='h1'>Hello World</Typography>
+            <Typography variant='h1'>Hello {user.firstname}</Typography>
         </Box>
     </Container>
   )
