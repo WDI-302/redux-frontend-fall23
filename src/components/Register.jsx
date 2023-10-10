@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,14 +17,43 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 // const defaultTheme = createTheme();
 
 export default function Register() {
+
+    // const [isValid, setIsValid] = useState({
+    //   
+    // })
+
+    const [pwdMatch, setPwdMatch] = useState({
+        error: false,
+        message: ""
+    })
+
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    let userObj = {
+        firstname: data.get('firstname'),
+        lastname: data.get('lastname'),
+        email: data.get('email'),
+        password: data.get('password'),
+      }
+    console.log(userObj);
+
+    if (userObj.password !== data.get('confirm-password')) {
+        setPwdMatch({
+            error: true,
+            message: "Password doesn't Match!"
+        })
+    } else {
+        setPwdMatch({
+            error: false,
+            message: ""
+        })
+    }
   };
+
+
 
   return (
     // ThemeProvider is in main.jsx
@@ -87,6 +116,18 @@ export default function Register() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="confirm-password"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirm-password"
+                  error={pwdMatch.error}
+                  helperText={pwdMatch.message}
                 />
               </Grid>
               
