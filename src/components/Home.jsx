@@ -13,9 +13,12 @@ const Home = () => {
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
 
-  React.useEffect(() => {
-    dispatch(loginTest())
-  }, [])
+  // testing the backend
+  // React.useEffect(() => {
+  //   dispatch(loginTest())
+  // }, [])
+
+  
   
   return (
     <Container maxWidth='lg'>
