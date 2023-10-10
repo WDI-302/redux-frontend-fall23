@@ -13,9 +13,20 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
+let loggedIn = true
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
+// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+let settings = []
+loggedIn ? settings = [
+  {Name: 'Profile', url: '/'},
+  {Name: 'Account', url: '/'},
+  {Name: 'Logout', url: '/'}
+]
+: 
+settings = [
+  {Name: 'Register', url: '/register'}, 
+  {Name: 'Log in', url: '/login'}
+]
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -44,7 +55,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -55,7 +66,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            REDUX
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -147,11 +158,22 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {settings.map((setting) => {
+                // you can run some code here
+                return (
+                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                  <Typography 
+                    href={setting.url}
+                    component="a"
+                    textAlign="center"
+                    sx={{
+                      color: 'white',
+                      textDecoration: 'none'
+                    }}
+                    >{setting.Name}</Typography>
                 </MenuItem>
-              ))}
+              )}
+              )}
             </Menu>
           </Box>
         </Toolbar>
