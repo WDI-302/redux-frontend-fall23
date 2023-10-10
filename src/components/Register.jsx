@@ -13,10 +13,16 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { useSelector, useDispatch} from 'react-redux'
+import { register } from '../redux/userSlice';
+
 // theme is in theme.jsx
 // const defaultTheme = createTheme();
 
 export default function Register() {
+
+    const user = useSelector( state => state.user)
+    const dispatch = useDispatch()
 
     // const [isValid, setIsValid] = useState({
     //   
@@ -29,15 +35,18 @@ export default function Register() {
 
 
 
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let userObj = {
-        firstname: data.get('firstname'),
-        lastname: data.get('lastname'),
+        firstname: data.get('firstName'),
+        lastname: data.get('lastName'),
         email: data.get('email'),
-        password: data.get('password'),
+        password: data.get('password')
       }
+    console.log('____userObj____')
     console.log(userObj);
 
     if (userObj.password !== data.get('confirm-password')) {
@@ -50,7 +59,10 @@ export default function Register() {
             error: false,
             message: ""
         })
+
     }
+
+    (userObj.password === data.get('confirm-password')) && dispatch(register(userObj))
   };
 
 
@@ -132,6 +144,14 @@ export default function Register() {
               </Grid>
               
             </Grid>
+            { user.status === 'rejected' && 
+                <Typography
+                    variant="h4"
+                    sx={{
+                        color: 'red',
+                        textAlign: 'center'
+                    }}
+                >{user.message}</Typography>}
             <Button
               type="submit"
               fullWidth

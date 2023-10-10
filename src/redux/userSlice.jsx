@@ -21,13 +21,24 @@ export const loginTest = createAsyncThunk('user/loginTest', async () => {
     return response.data
 })
 
+export const register = createAsyncThunk('user/register', async (userData, thunkAPI) => {
+    try {
+        let response = await Axios.post('/users/register', userData)
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data)
+    }
+})
+
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
         firstname: '',
         lastname: '',
         email: '',
-        message: 'Please Log in'
+        password: '',
+        message: 'Please Log in',
+        status: null
     },
     //syncronous set state
     reducers: {
@@ -51,6 +62,23 @@ export const userSlice = createSlice({
             // state.firstname = action.payload.firstname
             // state.lastname = action.payload.lastname
             // state.email = action.payload.email
+        })
+        builder.addCase(register.rejected, (state, action) => {
+            console.log('!@-------rejected Registration-------@!')
+            console.log(action.payload);
+            state.status = 'rejected'
+            state.message = action.payload
+            
+        })
+        builder.addCase(register.pending, (state, action) => {
+            console.log('!@-------pending Registration-------@!')
+            state.status = 'pending'
+        })
+        builder.addCase(register.fulfilled, (state, action) => {
+            return { 
+                ...action.payload,
+                status: 'fulfilled'
+            }
         })
     }
 })
