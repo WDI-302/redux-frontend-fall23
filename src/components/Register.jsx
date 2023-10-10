@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { useSelector, useDispatch} from 'react-redux'
 import { register } from '../redux/userSlice';
@@ -22,6 +23,7 @@ import { register } from '../redux/userSlice';
 export default function Register() {
 
     const user = useSelector( state => state.user)
+    const status = useSelector( state => state.user.status)
     const dispatch = useDispatch()
 
     // const [isValid, setIsValid] = useState({
@@ -158,7 +160,11 @@ export default function Register() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Register
+              {
+                status === 'pending' ?
+                <CircularProgress color="secondary" /> :
+                "Register"
+              }
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
