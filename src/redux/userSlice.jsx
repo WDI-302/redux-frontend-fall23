@@ -33,6 +33,11 @@ export const register = createAsyncThunk('user/register', async (userData, thunk
 export const login = createAsyncThunk('user/login', async (userData, thunkAPI) => {
     try {
         let response = await Axios.post('/users/login', userData)
+
+        //save token to local storage if isRemember is checked
+        // userData.isRemember && localStorage.setItem('reduxToken', response.data.token)
+        localStorage.setItem('reduxToken', response.data.token)
+
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -109,7 +114,7 @@ export const userSlice = createSlice({
             //     ...action.payload,
             //     status: 'fulfilled'
             // }
-            
+
             state.firstname = action.payload.firstname
             state.lastname = action.payload.lastname
             state.email = action.payload.email

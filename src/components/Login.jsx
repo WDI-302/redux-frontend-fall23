@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,6 +20,8 @@ export default function Login() {
   const user = useSelector(state => state.user)
   const status = useSelector(state => state.user.status)
 
+  const [isChecked, setIsChecked] = useState(false)
+
   const dispatch = useDispatch()
 
   const handleSubmit = (event) => {
@@ -28,8 +30,10 @@ export default function Login() {
     let userObj = {
       email: data.get('email'),
       password: data.get('password'),
+      isRemember: isChecked
     }
     console.log(userObj);
+
     dispatch(login(userObj))
 
   };
@@ -73,8 +77,15 @@ export default function Login() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              control={
+              <Checkbox 
+                value="remember"  
+                color="primary" 
+                checked={isChecked}
+                onChange={() => setIsChecked(!isChecked)}
+              />}
+              label="Remember Me"
+              
             />
             <Button
               type="submit"
