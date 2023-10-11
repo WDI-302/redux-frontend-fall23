@@ -30,6 +30,15 @@ export const register = createAsyncThunk('user/register', async (userData, thunk
     }
 })
 
+export const login = createAsyncThunk('user/login', async (userData, thunkAPI) => {
+    try {
+        let response = await Axios.post('/users/login', userData)
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data)
+    }
+})
+
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
@@ -79,6 +88,33 @@ export const userSlice = createSlice({
                 ...action.payload,
                 status: 'fulfilled'
             }
+        })
+        builder.addCase(login.pending, (state, action) => {
+            state.status = 'pending'
+        })
+        builder.addCase(login.rejected, (state, action) => {
+            state.status = 'rejected'
+            state.message = action.payload
+        })
+        builder.addCase(login.fulfilled, (state, action) => {
+            // for backend returning userObj
+            // state.firstname = action.payload.userObj.firstname
+            // state.lastname = action.payload.userObj.lastname
+            // state.email = action.payload.userObj.email
+            // state.status = 'fulfilled'
+            // state.message = action.payload.message
+
+            // for backend without userObj
+            // return { 
+            //     ...action.payload,
+            //     status: 'fulfilled'
+            // }
+            
+            state.firstname = action.payload.firstname
+            state.lastname = action.payload.lastname
+            state.email = action.payload.email
+            state.status = 'fulfilled'
+            state.message = action.payload.message
         })
     }
 })

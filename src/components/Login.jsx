@@ -11,15 +11,27 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import {useSelector, useDispatch} from 'react-redux'
+import CircularProgress from '@mui/material/CircularProgress';
+import { login } from '../redux/userSlice'
 
 export default function Login() {
+
+  const user = useSelector(state => state.user)
+  const status = useSelector(state => state.user.status)
+
+  const dispatch = useDispatch()
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    let userObj = {
       email: data.get('email'),
       password: data.get('password'),
-    });
+    }
+    console.log(userObj);
+    dispatch(login(userObj))
+
   };
 
   return (
@@ -70,7 +82,13 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Log In
+              {
+                status === 'pending' ? 
+                  <CircularProgress />
+                  :
+                  'Log In'
+              }
+              
             </Button>
             <Grid container>
               <Grid item xs>
