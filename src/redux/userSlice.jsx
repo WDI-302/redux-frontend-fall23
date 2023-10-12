@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import Axios from '../lib/Axios'
+import { authSuccess } from './authSlice'
 
 // thunk middleware is for async
 // createAsyncThunk, first parameter is your action.type (create is with the name + / + name of function)
@@ -38,6 +39,9 @@ export const login = createAsyncThunk('user/login', async (userData, thunkAPI) =
         // userData.isRemember && localStorage.setItem('reduxToken', response.data.token)
         localStorage.setItem('reduxToken', response.data.token)
 
+        // dispatch auth success to authSlice
+        thunkAPI.dispatch(authSuccess())
+
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -56,7 +60,19 @@ export const userSlice = createSlice({
     },
     //syncronous set state
     reducers: {
-        addUser: (state, action) => {}
+        setUser: (state, action) => {
+            state.firstname = action.payload.firstname,
+            state.lastname = action.payload.lastname,
+            state.email = action.payload.email,
+            state.message = action.payload.message
+        },
+        resetStatus: state => {
+            // return {
+            //     ...state,
+            //     status: null
+            // }
+            state.status = null
+        }
 
     },
     // asyncronous set state
@@ -125,6 +141,6 @@ export const userSlice = createSlice({
 })
 
 //action creator is only for reducers NOT extraReducers
-export const { addUser } = userSlice.actions
+export const { setUser, resetStatus } = userSlice.actions
 
 export default userSlice.reducer

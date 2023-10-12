@@ -13,16 +13,26 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useSelector, useDispatch} from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress';
-import { login } from '../redux/userSlice'
+import { login, resetStatus } from '../redux/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
 
   const user = useSelector(state => state.user)
   const status = useSelector(state => state.user.status)
 
-  const [isChecked, setIsChecked] = useState(false)
-
+  
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  React.useEffect(() => {
+    if (status === 'fulfilled') {
+      dispatch(resetStatus())
+      navigate("/")
+    }
+  }, [status])
+
+  const [isChecked, setIsChecked] = useState(false)
 
   const handleSubmit = (event) => {
     event.preventDefault();
