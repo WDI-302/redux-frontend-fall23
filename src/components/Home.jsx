@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Box, Typography } from '@mui/material'
+import { Container, Box, Typography, Link } from '@mui/material'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { loginTest } from '../redux/userSlice'
@@ -29,7 +29,16 @@ const Home = () => {
   return (
     <Container maxWidth='lg'>
         <Box >
-            <Typography variant='h1'>Hello {user.firstname}</Typography>
+            <Typography variant='h3'>{
+              auth ? 
+                <>Hello {user.firstname}</>
+             :
+
+                <>
+                {auth}
+                Please <Link href='/login' variant="h3">Login</Link> 
+                or <Link href='/register'>Register</Link></>
+            }</Typography>
         </Box>
     </Container>
   )

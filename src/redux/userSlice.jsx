@@ -71,8 +71,14 @@ export const userSlice = createSlice({
             //     ...state,
             //     status: null
             // }
+            //Immer library in effect does the above, 
+            // in other words it preserves the previous state and updates only the one(s) specified 
             state.status = null
+        },
+        setMessage: (state, action) => {
+            state.message = action.payload.message
         }
+
 
     },
     // asyncronous set state
@@ -141,6 +147,6 @@ export const userSlice = createSlice({
 })
 
 //action creator is only for reducers NOT extraReducers
-export const { setUser, resetStatus } = userSlice.actions
+export const { setUser, resetStatus, setMessage } = userSlice.actions
 
 export default userSlice.reducer

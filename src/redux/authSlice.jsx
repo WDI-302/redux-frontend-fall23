@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import Axios from '../lib/Axios'
 import { checkAuthToken } from '../lib/checkAuthToken'
-import { setUser } from './userSlice'
+import { setMessage, setUser } from './userSlice'
 
 export const authCheck = createAsyncThunk('auth/authCheck', async (_, thunkAPI) => {
     try {
@@ -23,6 +23,7 @@ export const authCheck = createAsyncThunk('auth/authCheck', async (_, thunkAPI) 
         return response.data
         
     } catch (error) {
+        thunkAPI.dispatch(setMessage({message: error.response.data}))
         return thunkAPI.rejectWithValue(error.response.data)
     }
 } )
