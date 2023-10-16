@@ -29,15 +29,19 @@ const Home = () => {
   return (
     <Container maxWidth='lg'>
         <Box >
-            <Typography variant='h3'>{
+            <Typography variant='h3'>
+              { user.message && <>{user.message}<br /></>}
+              {
               auth ? 
                 <>Hello {user.firstname}</>
              :
 
                 <>
-                {auth}
-                Please <Link href='/login' variant="h3">Login</Link> 
-                or <Link href='/register'>Register</Link></>
+                {/* {user.message === 'jwt expired' && <>Session Expired</>} <br/> */}
+                Please <Link href='/login' variant="h3">Log in</Link> 
+                {user.message !== 'Authentication Expired' && 
+                <> or <Link href='/register'>Register</Link></> }
+                 </>
             }</Typography>
         </Box>
     </Container>

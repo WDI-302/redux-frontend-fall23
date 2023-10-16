@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom'
 export default function Login() {
 
   const user = useSelector(state => state.user)
+  const message = useSelector(state => state.user.message)
   const status = useSelector(state => state.user.status)
 
   
@@ -65,6 +66,13 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Log In
           </Typography>
+          {
+            status && 
+            <Typography component='h2' variant="h6" sx={{color: 'orange'}}>
+            {message}
+          </Typography>
+          }
+          
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -75,6 +83,8 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              error = {message === "User Not Found" ? true : false}
+              helperText = {message === "User Not Found" ? message : false}
             />
             <TextField
               margin="normal"
@@ -85,6 +95,8 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error = {message === "Invalid Password" ? true : false}
+              helperText = {message === "Invalid Password" ? message : false}
             />
             <FormControlLabel
               control={

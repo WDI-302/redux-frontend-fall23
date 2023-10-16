@@ -55,7 +55,7 @@ export const userSlice = createSlice({
         lastname: '',
         email: '',
         password: '',
-        message: 'Please Log in',
+        message: '',
         status: null
     },
     //syncronous set state
@@ -76,7 +76,8 @@ export const userSlice = createSlice({
             state.status = null
         },
         setMessage: (state, action) => {
-            state.message = action.payload.message
+            
+            state.message = action.payload
         }
 
 

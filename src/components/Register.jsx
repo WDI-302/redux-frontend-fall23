@@ -88,6 +88,14 @@ export default function Register() {
           <Typography component="h1" variant="h5">
             Register
           </Typography>
+          { user.status === 'rejected' && 
+                <Typography
+                    variant="h6"
+                    sx={{
+                        color: 'red',
+                        textAlign: 'center'
+                    }}
+                >{user.message}</Typography>}
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -146,14 +154,7 @@ export default function Register() {
               </Grid>
               
             </Grid>
-            { user.status === 'rejected' && 
-                <Typography
-                    variant="h4"
-                    sx={{
-                        color: 'red',
-                        textAlign: 'center'
-                    }}
-                >{user.message}</Typography>}
+
             <Button
               type="submit"
               fullWidth

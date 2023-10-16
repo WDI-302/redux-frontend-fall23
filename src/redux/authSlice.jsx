@@ -23,7 +23,7 @@ export const authCheck = createAsyncThunk('auth/authCheck', async (_, thunkAPI) 
         return response.data
         
     } catch (error) {
-        thunkAPI.dispatch(setMessage({message: error.response.data}))
+        thunkAPI.dispatch(setMessage(error.response.data))
         return thunkAPI.rejectWithValue(error.response.data)
     }
 } )
