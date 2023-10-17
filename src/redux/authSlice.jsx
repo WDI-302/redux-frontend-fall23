@@ -30,9 +30,9 @@ export const authCheck = createAsyncThunk('auth/authCheck', async (_, thunkAPI) 
 
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     try {
-        alert("Hello from the dispatch")
+        await localStorage.removeItem('reduxToken')
     } catch (error) {
-        
+        console.log(error)
     }
 }) 
 
@@ -59,6 +59,9 @@ export const authSlice = createSlice({
             })
             .addCase(authCheck.fulfilled, state => {
                 state.isAuth = true
+            })
+            .addCase(logout.fulfilled, state => {
+                state.isAuth = false
             })
 
     }

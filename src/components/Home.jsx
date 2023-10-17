@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginTest } from '../redux/userSlice'
 import { authCheck } from '../redux/authSlice'
 
+import { useNavigate } from 'react-router-dom'
+
 
 const Home = () => {
   // make a Redux store and userSlice
@@ -14,6 +16,7 @@ const Home = () => {
   const user = useSelector(state => state.user)
   const auth = useSelector(state => state.auth.isAuth)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // testing the backend
   // React.useEffect(() => {
@@ -22,6 +25,7 @@ const Home = () => {
 
   React.useEffect( () => {
     dispatch(authCheck())
+    !auth && navigate('/', {replace: true})
   },[auth])
 
   
