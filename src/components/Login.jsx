@@ -95,8 +95,8 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-              error = {message === "Invalid Password" ? true : false}
-              helperText = {message === "Invalid Password" ? message : false}
+              error = {message === "Incorrect Password" ? true : false}
+              helperText = {message === "Incorrect Password" ? message : false}
             />
             <FormControlLabel
               control={

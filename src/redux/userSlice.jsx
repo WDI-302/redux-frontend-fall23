@@ -33,6 +33,8 @@ export const register = createAsyncThunk('user/register', async (userData, thunk
 
 export const login = createAsyncThunk('user/login', async (userData, thunkAPI) => {
     try {
+        delete Axios.defaults.headers.common['Authorization']
+
         let response = await Axios.post('/users/login', userData)
 
         //save token to local storage if isRemember is checked
