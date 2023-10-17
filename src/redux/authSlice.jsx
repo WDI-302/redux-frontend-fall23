@@ -31,6 +31,7 @@ export const authCheck = createAsyncThunk('auth/authCheck', async (_, thunkAPI) 
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     try {
         await localStorage.removeItem('reduxToken')
+        thunkAPI.dispatch(resetUser())
     } catch (error) {
         console.log(error)
     }

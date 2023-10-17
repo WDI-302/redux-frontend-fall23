@@ -80,8 +80,17 @@ export const userSlice = createSlice({
         setMessage: (state, action) => {
             
             state.message = action.payload
-        }
-
+        },
+        resetUser: state => {
+            return {
+                firstname: '',
+                lastname: '',
+                email: '',
+                password: '',
+                message: '',
+                status: null
+            }
+        } 
 
     },
     // asyncronous set state
@@ -150,6 +159,6 @@ export const userSlice = createSlice({
 })
 
 //action creator is only for reducers NOT extraReducers
-export const { setUser, resetStatus, setMessage } = userSlice.actions
+export const { setUser, resetStatus, setMessage, resetUser } = userSlice.actions
 
 export default userSlice.reducer

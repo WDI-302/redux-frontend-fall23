@@ -18,7 +18,7 @@ import Register from './components/Register'
 //      i) isAuth set to false
 //      ii) Clear user state in userSlice via thunkAPI
 //      iii) delete token
-//      iv) delete headers 
+//          iv) delete headers 
 // 3) navigate to Home
 //    a) bonus: clear the history
 
