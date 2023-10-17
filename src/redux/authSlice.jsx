@@ -28,6 +28,14 @@ export const authCheck = createAsyncThunk('auth/authCheck', async (_, thunkAPI) 
     }
 } )
 
+export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+    try {
+        alert("Hello from the dispatch")
+    } catch (error) {
+        
+    }
+}) 
+
 
 
 export const authSlice = createSlice({

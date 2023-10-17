@@ -12,7 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {useSelector} from "react-redux"
+import {useSelector, useDispatch} from "react-redux"
+import { logout } from '../redux/authSlice';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -22,6 +23,8 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const isAuth = useSelector(state => state.auth.isAuth)
+  const dispatch = useDispatch()
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -35,7 +38,7 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = (name) => {
     console.log(name)
-    name === 'Logout' && alert("Hello")
+    name === 'Logout' && dispatch(logout())
     setAnchorElUser(null);
   };
   let settings = [
