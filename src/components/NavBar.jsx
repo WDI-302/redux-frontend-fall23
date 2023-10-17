@@ -12,25 +12,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import {useSelector} from "react-redux"
 
-let loggedIn = false
 const pages = ['Products', 'Pricing', 'Blog'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-let settings = []
-loggedIn ? settings = [
-  {Name: 'Profile', url: '/'},
-  {Name: 'Account', url: '/'},
-  {Name: 'Logout', url: '/'}
-]
-: 
-settings = [
-  {Name: 'Register', url: '/register'}, 
-  {Name: 'Log in', url: '/login'}
-]
+
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const isAuth = useSelector(state => state.auth.isAuth)
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -42,9 +33,22 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (name) => {
+    console.log(name)
+    name === 'Logout' && alert("Hello")
     setAnchorElUser(null);
   };
+  let settings = [
+    {name: 'Register', url: '/register'}, 
+    {name: 'Log in', url: '/login'}
+  ]
+  isAuth && (settings = [
+    {name: 'Profile', url: '/'},
+    {name: 'Account', url: '/'},
+    {name: 'Logout', url: '/'}
+  ])
+
+
 
   return (
     <AppBar position="static">
@@ -145,6 +149,7 @@ function ResponsiveAppBar() {
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
+              key="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
@@ -160,8 +165,9 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => {
                 // you can run some code here
+                console.log(setting.name)
                 return (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting.name} onClick={() => handleCloseUserMenu(setting.name)}>
                   <Typography 
                     href={setting.url}
                     component="a"
@@ -170,7 +176,7 @@ function ResponsiveAppBar() {
                       color: 'white',
                       textDecoration: 'none'
                     }}
-                    >{setting.Name}</Typography>
+                    >{setting.name}</Typography>
                 </MenuItem>
               )}
               )}
