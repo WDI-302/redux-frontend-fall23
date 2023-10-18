@@ -70,6 +70,7 @@ export default function Login() {
             status && 
             <Typography component='h2' variant="h6" sx={{color: 'orange'}}>
             {message}
+            {/* {message === "User Not Found" ? 'Cannot find the email' : false} */}
           </Typography>
           }
           

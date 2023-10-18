@@ -16,6 +16,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { useSelector, useDispatch} from 'react-redux'
 import { register } from '../redux/userSlice';
+import { validateObj } from '../lib/validator';
 
 // theme is in theme.jsx
 // const defaultTheme = createTheme();
@@ -26,9 +27,12 @@ export default function Register() {
     const status = useSelector( state => state.user.status)
     const dispatch = useDispatch()
 
-    // const [isValid, setIsValid] = useState({
-    //   
-    // })
+    const [isValid, setIsValid] = useState({
+      firstname: {error: false, message: ''},
+      lastname: {error: false, message: ''},
+      email: {error: false, message: ''},
+      password: {error: false, message: ''}
+    })
 
     const [pwdMatch, setPwdMatch] = useState({
         error: false,
@@ -48,8 +52,8 @@ export default function Register() {
         email: data.get('email'),
         password: data.get('password')
       }
-    console.log('____userObj____')
-    console.log(userObj);
+    // console.log('____userObj____')
+    // console.log(userObj);
 
     if (userObj.password !== data.get('confirm-password')) {
         setPwdMatch({
@@ -63,6 +67,15 @@ export default function Register() {
         })
 
     }
+    // call validator function and check for errors
+    const validated = validateObj(userObj)
+    console.log(validated)
+
+    setIsValid(validated)
+    // if there are errors
+    //  a) display errors
+    //  b) do not dispatch
+
 
     (userObj.password === data.get('confirm-password')) && dispatch(register(userObj))
   };
@@ -107,6 +120,8 @@ export default function Register() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  error = {isValid.firstname.error}
+                  helperText = {isValid.firstname.message}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -117,6 +132,8 @@ export default function Register() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  error = {isValid.lastname.error}
+                  helperText = {isValid.lastname.message}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -127,6 +144,8 @@ export default function Register() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  error = {isValid.email.error}
+                  helperText = {isValid.email.message}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -138,6 +157,8 @@ export default function Register() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error = {isValid.password.error}
+                  helperText = {isValid.password.message}
                 />
               </Grid>
               <Grid item xs={12}>
