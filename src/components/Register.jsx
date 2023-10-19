@@ -15,9 +15,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useSelector, useDispatch} from 'react-redux'
-import { register } from '../redux/userSlice';
-import { validateObj } from '../lib/validator';
+import { register, resetStatus } from '../redux/userSlice';
+import { validator } from '../lib/validator';
 
+import {useNavigate} from 'react-router-dom'
 // theme is in theme.jsx
 // const defaultTheme = createTheme();
 
@@ -26,6 +27,15 @@ export default function Register() {
     const user = useSelector( state => state.user)
     const status = useSelector( state => state.user.status)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    
+    React.useEffect(() => {
+      if (status === 'fulfilled') {
+        dispatch(resetStatus())
+        navigate("/")
+      }
+    }, [status])
 
     const [isValid, setIsValid] = useState({
       firstname: {error: false, message: ''},
@@ -68,16 +78,29 @@ export default function Register() {
 
     }
     // call validator function and check for errors
-    const validated = validateObj(userObj)
-    console.log(validated)
-
-    setIsValid(validated)
     // if there are errors
     //  a) display errors
     //  b) do not dispatch
 
+    const validatedObj = validator(userObj)
+    console.log(validatedObj)
 
+    let isErrors = false
+    for (const key in validatedObj) {
+      if (validatedObj[key].error) {
+        isErrors = true
+      }  
+    }  
+
+    isErrors ? 
+    setIsValid(validatedObj)
+    :
     (userObj.password === data.get('confirm-password')) && dispatch(register(userObj))
+
+
+
+
+    // (userObj.password === data.get('confirm-password')) && dispatch(register(userObj))
   };
 
 

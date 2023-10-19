@@ -28,6 +28,16 @@ const checker = (key, value) => {
             //     }
             // return caseObj
         case "email":
+            
+            if (value === ''){
+                return {
+                    error: true,
+                    message: 'Cannot be Empty'
+                }
+            };
+            // if (value.includes(' ')){
+            //     return {error: true, message: 'Cannot use empty spaces'}
+            // }
 
             // if(!value.includes('@') || !value.includes('.')) {
             //     return {error: true, message: 'Not a valid email'}
@@ -39,21 +49,9 @@ const checker = (key, value) => {
                 return {error: true, message: 'Not a valid email'}
             }
 
-            if (value.includes(' ')){
-                return {error: true, message: 'Cannot use empty spaces'}
-            }
-            if (value === ''){
-                return {
-                    error: true,
-                    message: 'Cannot be Empty'
-                }
-            };
-
             return {error: false, message: ''}
         case "password":
             // ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&*!]).{8,}$
-
-
             if (value.includes(' ')){
                 return {error: true, message: 'Cannot use empty spaces'}
             }
@@ -78,8 +76,53 @@ const checker = (key, value) => {
     }
 }
 
-export const validateObj = params => {
-    console.log(params)
+const checkIf = (key, value) => {
+    if (value.includes(' ')){
+        return {error: true, message: 'Cannot use empty spaces'}
+    }
+    if (value === ''){
+        return {
+            error: true,
+            message: 'Cannot be Empty'
+        }
+    };
+    if (key === 'email') {
+        let emailRegExp = new RegExp(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/)
+        if (!emailRegExp.test(value)) {
+            return {error: true, message: 'Not a valid email'}
+        }
+    }
+    if (key === 'password') {
+        let passwordRegExp = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/)
+        // if (!passwordRegExp.test(value)) {
+        //     return {error: true, message: 'Password must be at least 8 characters and include numbers and special characters'}
+        // }
+        if (!passwordRegExp.test(value)) {
+            let errorMessage = ''
+            if (value.length < 8 ) {
+                errorMessage += 'Must be at least 8 characters. '
+            }
+            if ( !/\d/.test(value)  ){
+                errorMessage += 'Must contain numbers. '
+            }
+            if (!/[a-z]/.test(value)) {
+                errorMessage += "Must contain lowercase letters. "
+            }
+            if (!/[A-Z]/.test(value)) {
+                errorMessage += "Must contain Uppercase letters. "
+            }
+            if (!/\W/.test(value)) {
+                errorMessage += "Must contain special character. "
+            }
+            return {error: true, message: errorMessage}
+        }
+    }
+
+    return {error: false, message: ''}
+}
+
+export const validator = params => {
+    // console.log(params)
     let returnObj = {}
     for (const key in params) {  // first loop, key = firstname
         const element = params[key]  // params[firstname]: {error: false, message: ''} | element = {error: false, message: ''}
@@ -87,7 +130,7 @@ export const validateObj = params => {
         // and then returns the modified object
         returnObj = {
             ...returnObj,
-            [key]: checker(key, element)
+            [key]: checkIf(key, element)
         }
     }
     return returnObj
